@@ -16,7 +16,8 @@ cc.Class({
         
         startUI: cc.Node,
         modeChooseUI:cc.Node,
-        musicChooseUI:cc.Node
+        musicChooseUI:cc.Node,
+        levelChooseUI:cc.Node
         // foo: {
         //     // ATTRIBUTES:
         //     default: null,        // The default value will be used only when the component attaching
@@ -55,11 +56,34 @@ cc.Class({
         
     },
 
+    //选择冒险模式->关卡选择
+    modeChooseToLevelChoose()
+    {
+        this.modeChooseUI.active=false;
+        this.levelChooseUI.active=true;
+    },
+
+    //进入极速模式
     fastMode()
     {
         ModeID.getInstance().id=3;
         this.modeChooseToMusic()
     },
+
+    //进入冒险模式
+    riskMode()
+    {
+        ModeID.getInstance().id=1;
+        this.modeChooseToLevelChoose()
+    },
+
+    //进入计时模式
+    timeMode()
+    {
+        ModeID.getInstance().id=2;
+        this.modeChooseToMusic()
+    },
+
 
     startToModeChoose(){
         //console.log("StartToModeChoose");

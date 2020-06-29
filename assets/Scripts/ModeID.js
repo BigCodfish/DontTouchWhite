@@ -5,7 +5,7 @@
 // Learn life-cycle callbacks:
 //  - https://docs.cocos.com/creator/manual/en/scripting/life-cycle-callbacks.html
 
-//游戏模式，1：无尽模式，2：计时模式，3：极速模式
+//游戏模式，1：冒险模式，2：计时模式，3：极速模式
 var ModeID=cc.Class({
     extends: cc.Component,
  
@@ -27,7 +27,9 @@ var ModeID=cc.Class({
  
  ctor() //构造函数
     {
-        this.id=3;
+        this.id=0;
+        this.levelId=0;
+        this.musicId=0;
         ModeID.self=this;
     },
 });

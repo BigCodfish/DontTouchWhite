@@ -24,29 +24,28 @@ cc.Class({
         this.blackComp=this.black.getComponent("BlackCube")
         this.cubeWidth=cc.find("Canvas").width/4;
         this.screenHeight=cc.find("Canvas").height/4
-        //this.reset(0)
+        this.blackBtn=this.black.getComponent(cc.Button)
     },
 
     update(dt)
     {
-        console.log(this.manager.gamePause)
         if(!this.manager.gameEnd&&!this.manager.gamePause)
         {
-            this.node.y-=this.speed;
+            this.node.y-=this.speed*dt;
         }
         //console.log(this.node.y)
         if(this.node.y<-this.screenHeight*2)
         {
             if(this.blackComp.id==0) this.manager.gameEnd=true;
-            this.reset(4,this.screenHeight)
+            this.reset(5,this.screenHeight)
         }
     },
 
+    //由于速度的加快，reset的y轴设置有误差
     
 
-    //调用reset时cubeGroup中的screenHeight尚未赋值
     reset(y,screenHeight){
-        this.black.getComponent(cc.Button).interactable=true
+        this.blackBtn.interactable=true
         
         this.node.y = y*screenHeight-screenHeight;
         

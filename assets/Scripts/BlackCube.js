@@ -10,7 +10,7 @@ cc.Class({
 
     properties: {
         
-
+        stopLabel:cc.Node
     },
 
     // LIFE-CYCLE CALLBACKS:
@@ -23,15 +23,29 @@ cc.Class({
         this.node.width=canvas.width/4-1;
         this.node.height=canvas.height/4-1;
         this.manager=cc.find("GameManager").getComponent("GameManager")
+        this.btn=this.node.getComponent(cc.Button)
         //this.parent=this.node.parent.getComponent("CubeGroup")
     },
 
+    restartGame()
+    {
+        if(this.id==0)
+        {
+            this.stopLabel.active=false;
+            this.manager.gamePause=false;    
+        }
+    },
+
     onTouch(){
-        this.node.getComponent(cc.Button).interactable=false;
+        if(this.id!=0 && this.manager.gamePause) return;
+        else if(this.id==0&&this.manager.gamePause){
+            this.manager.gamePause=false;
+            this.stopLabel.active=false;
+        }
+        this.btn.interactable=false;
         console.log("Black Touch:"+this.id)
         if(this.id==0){
-            this.manager.score+=1;
-            
+            this.manager.score+=1;            
             this.manager.changeCubeId()//改变id序列
             
         }

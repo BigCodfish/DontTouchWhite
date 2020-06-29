@@ -34,11 +34,12 @@ cc.Class({
         let canvas = cc.find("Canvas")
         this.node.width=canvas.width/4-1;
         this.node.height=canvas.height/4-1;
+        this.manager=cc.find("GameManager").getComponent("GameManager")
     },
 
     onTouch()
     {
-        cc.find("GameManager").getComponent("GameManager").gameEnd=true;
+        if(!this.manager.gamePause) {this.manager.gameEnd=true;}
     }
 
     // update (dt) {},

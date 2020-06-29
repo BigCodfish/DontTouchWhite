@@ -9,6 +9,7 @@ cc.Class({
     extends: cc.Component,
 
     properties: {
+
         // foo: {
         //     // ATTRIBUTES:
         //     default: null,        // The default value will be used only when the component attaching
@@ -34,6 +35,7 @@ cc.Class({
         this.pos=0
         this.posX=this.node.getParent().x
         this.parent=this.node.getParent().getParent()
+        this.text=this.node.getComponent(cc.Label);
     },
 
     update (dt) {
@@ -41,10 +43,11 @@ cc.Class({
         let scale=1-Math.abs(Math.abs(this.pos)-this.posX)/478
         //console.log(scale)
         //console.log(this.pos)
-        this.node.width=70*scale;
-        this.node.height=310*scale;
-        this.node.opacity=255*scale
+        this.text.lineHeight=35*scale;
+        this.text.fontSize=30*scale;
+        this.node.y=73.361*scale;
         //console.log(this.node.name+this.posX)
         //console.log(this.node.size)
     },
+    // update (dt) {},
 });

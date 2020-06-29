@@ -18,6 +18,16 @@ cc.Class({
         score:0,
         scoreLabel:cc.Label,
         totalScoreLabel:cc.Label,
+        speedLevel:30,   //单次加速量
+        currenSpeed:0,   //当前速度
+        speedTime:10,    //加速频率
+
+        //闯关模式分数
+        level1:100,
+        level2:120,
+        level3:150,
+        level4:170,
+        level5:200
     },
     
     // LIFE-CYCLE CALLBACKS:
@@ -30,38 +40,52 @@ cc.Class({
         this.canvas=cc.find("Canvas")
         this.screenHeight=cc.find("Canvas").height/4
         this.cubeList=this.cubes.children;
-        this.startMode()  
+        this.modeId=ModeID.getInstance().id;
+        this.cubeComponents=[]
+        for(let i=0;i<6;i++)
+        {
+            let cubeGroup = this.cubeList[i].getComponent("CubeGroup")
+            this.cubeComponents[i]=cubeGroup;
+        }
         
+        this.startMode()  
     },
 
     update (dt) {
         if(this.gameEnd)
         {
-            console.log("游戏结束")
+            //console.log("游戏结束")
             this.endUI.active=true;
             this.totalScoreLabel.string=this.score
         }
         else{
             this.scoreLabel.string=this.score;
         }
+
+        //加速
+        if(~~(this.score/this.speedTime) > this.currenSpeed/this.speedLevel){
+            this.currenSpeed=~~(this.score/this.speedTime)*this.speedLevel;
+            this.setSpeed(this.currenSpeed)
+        }
     },
 
     //改变黑块id
     changeCubeId()
     {
-        for(let i=0;i<5;i++)
+        for(let i=0;i<6;i++)
         {            
-            let cubeGroup = this.cubeList[i].getComponent("CubeGroup")
-            if(cubeGroup.blackComp.id!=0)
+            if(this.cubeComponents[i].blackComp.id!=0)
             {
-                cubeGroup.blackComp.id-=1;
+                //console.log(this.cubeComponents[i].blackComp.id)
+                this.cubeComponents[i].blackComp.id-=1;
             }
             else{
-                cubeGroup.blackComp.id=4;
+                this.cubeComponents[i].blackComp.id=5;
             }
         }
     },
 
+    //回到开始界面
     backToStartScene()
     {
         cc.director.loadScene("StartScene")
@@ -69,28 +93,70 @@ cc.Class({
 
     gameStop()
     {
-        this.gamePause=!this.gamePause;
+        this.gamePause=true
+        for(let i=0;i<6;i++)
+        {            
+            if(this.cubeComponents[i].blackComp.id==0)
+            {
+                this.cubeComponents[i].blackComp.stopLabel.active=true;
+            }
+        }
     },
 
+    //游戏开始，根据模式载入
     startMode()
     {
-        if(ModeID.getInstance().id==3)this.fastMode();
+        if(this.modeId==3){
+            this.fastMode();
+            
+            
+        }
+        else if(this.modeId==1)
+        {
+            this.speedLevel=30;
+            this.currenSpeed=30;
+        }
+        else if(this.modeId==2)
+        {
+            this.speedLevel=30;
+            this.currenSpeed=30;
+        }
+    },
+
+    //为所有cube设置速度
+    setSpeed(speed)
+    {
+        for(let i=0;i<6;i++)
+        {
+            this.cubeComponents[i].speed=speed;
+        }
+        console.log("setSpeed:"+speed)
+    },
+
+    getHighest()
+    {
+        
+        //console.log(this.highest)
     },
 
     fastMode()
     {
+        this.speedLevel=80;
+        this.currenSpeed=80;
+        this.speedTime=5;
         this.gameEnd=false;
         this.gamePause=false;
         this.score=0;
         this.endUI.active=false;
-        console.log("FastMode On")
-        for(let i=0;i<5;i++)
+        //console.log("FastMode On")
+        for(let i=0;i<6;i++)
         {
-            let cubeGroup = this.cubeList[i].getComponent("CubeGroup")
-            cubeGroup.reset(i,this.screenHeight)
-            console.log(cubeGroup.blackComp.id)
-            cubeGroup.blackComp.id=i;
+            this.cubeComponents[i].reset(i,this.screenHeight)
+            this.cubeComponents[i].blackComp.id=i;
         }
+        this.setSpeed(this.currenSpeed)
         
     }
+
+
 });
