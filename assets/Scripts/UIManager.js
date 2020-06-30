@@ -17,7 +17,13 @@ cc.Class({
         startUI: cc.Node,
         modeChooseUI:cc.Node,
         musicChooseUI:cc.Node,
-        levelChooseUI:cc.Node
+        levelChooseUI:cc.Node,
+        selfModeSetUI:cc.Node,
+
+
+        initSpeed:cc.EditBox,
+        speedTime:cc.EditBox,
+        speedCount:cc.EditBox,
         // foo: {
         //     // ATTRIBUTES:
         //     default: null,        // The default value will be used only when the component attaching
@@ -77,11 +83,11 @@ cc.Class({
         this.modeChooseToLevelChoose()
     },
 
-    //进入计时模式
+    //进入自定义模式
     timeMode()
     {
         ModeID.getInstance().id=2;
-        this.modeChooseToMusic()
+        this.modeChooseToDataSet()
     },
 
 
@@ -90,6 +96,40 @@ cc.Class({
         //console.log(this.startUI.active)
         this.startUI.active=false;
         this.modeChooseUI.active=true;
+    },
+
+    ModeChooseBackToStartUI()
+    {
+        this.modeChooseUI.active=false;
+        this.startUI.active=true;
+    },
+
+    modeChooseToDataSet()
+    {
+        this.modeChooseUI.active=false;
+        this.selfModeSetUI.active=true;
+    },
+
+    levelChooseBackToModeChoose()
+    {
+        this.levelChooseUI.active=false;
+        this.modeChooseUI.active=true;
+    },
+
+    dateSetBackToModeChoose()
+    {
+        this.selfModeSetUI.active=false;
+        this.modeChooseUI.active=true;
+    },
+
+
+    setEditBoxToGlobal()
+    {
+        ModeID.getInstance().initSpeed=parseInt(this.initSpeed.string)
+        ModeID.getInstance().speedTime=parseInt(this.speedTime.string)
+        ModeID.getInstance().speedCount=parseInt(this.speedCount.string)
+        this.selfModeSetUI.active=false;
+        this.musicChooseUI.active=true;
     }
 
     // update (dt) {},

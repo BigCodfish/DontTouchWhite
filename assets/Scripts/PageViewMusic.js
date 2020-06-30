@@ -5,7 +5,6 @@
 // Learn life-cycle callbacks:
 //  - https://docs.cocos.com/creator/manual/en/scripting/life-cycle-callbacks.html
 var ModeID=require('ModeID');
-
 cc.Class({
     extends: cc.Component,
 
@@ -33,7 +32,7 @@ cc.Class({
 
     getCurrentIndex()
     {
-        ModeID.getInstance().levelId=this.node.getComponent(cc.PageView).getCurrentPageIndex()
+        ModeID.getInstance().musicId=this.node.getComponent(cc.PageView).getCurrentPageIndex()
     }
 
     // update (dt) {},

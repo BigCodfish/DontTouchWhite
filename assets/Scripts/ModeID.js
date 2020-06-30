@@ -30,6 +30,9 @@ var ModeID=cc.Class({
         this.id=0;
         this.levelId=0;
         this.musicId=0;
+        this.initSpeed=80;
+        this.speedTime=5;
+        this.speedCount=10;
         ModeID.self=this;
     },
 });

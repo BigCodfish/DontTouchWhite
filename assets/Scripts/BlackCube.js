@@ -38,6 +38,7 @@ cc.Class({
 
     onTouch(){
         if(this.id!=0 && this.manager.gamePause) return;
+        if(this.manager.gameEnd) return;
         else if(this.id==0&&this.manager.gamePause){
             this.manager.gamePause=false;
             this.stopLabel.active=false;
