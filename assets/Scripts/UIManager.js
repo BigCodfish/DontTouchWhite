@@ -132,6 +132,11 @@ cc.Class({
         ModeID.getInstance().initSpeed=parseInt(this.initSpeed.string)
         ModeID.getInstance().speedTime=parseInt(this.speedTime.string)
         ModeID.getInstance().speedCount=parseInt(this.speedCount.string)
+
+        if(!parseInt(this.initSpeed.string))ModeID.getInstance().initSpeed=80
+        if(!parseInt(this.speedTime.string))ModeID.getInstance().speedTime=5
+        if(!parseInt(this.speedCount.string))ModeID.getInstance().speedCount=10
+       
         this.selfModeSetUI.active=false;
         this.musicChooseUI.active=true;
     },
