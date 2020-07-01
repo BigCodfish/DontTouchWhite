@@ -37,6 +37,8 @@ cc.Class({
         if(this.node.y<-this.screenHeight*2)
         {
             if(this.blackComp.id==0) this.manager.gameEnd=true;
+            this.blackComp.particle.node.active=false; //将粒子不可见
+            
             this.localReset()
             
         }

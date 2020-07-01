@@ -9,8 +9,8 @@ cc.Class({
     extends: cc.Component,
 
     properties: {
-        
-        stopLabel:cc.Node
+        stopLabel:cc.Node,
+        particle:cc.ParticleSystem
     },
 
     // LIFE-CYCLE CALLBACKS:
@@ -24,6 +24,10 @@ cc.Class({
         this.node.height=canvas.height/4-1;
         this.manager=cc.find("GameManager").getComponent("GameManager")
         this.btn=this.node.getComponent(cc.Button)
+        this.particle.startRadius=canvas.width/8;
+        this.particle.node.zIndex=100;
+        this.particle.node.y=-canvas.height/8
+        this.particle.node.x=canvas.width/8
         //this.parent=this.node.parent.getComponent("CubeGroup")
     },
 
@@ -37,6 +41,8 @@ cc.Class({
     },
 
     onTouch(){
+        this.particle.node.active=true;
+        this.particle.resetSystem();
         if(this.id!=0 && this.manager.gamePause) return;
         if(this.manager.gameEnd) return;
         else if(this.id==0&&this.manager.gamePause){

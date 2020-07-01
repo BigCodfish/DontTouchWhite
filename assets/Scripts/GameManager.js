@@ -27,6 +27,20 @@ cc.Class({
         currenSpeed:0,   //当前速度
         speedTime:10,    //加速频率
         highest:5,      //最顶层的cube所处的子层位置
+
+        //toggle组
+        toggle1:cc.Toggle,
+        toggle2:cc.Toggle,
+        toggle3:cc.Toggle,
+
+        targetScore:cc.Label,  //冒险模式目标分数
+        scoreLabel2:cc.Label,  //冒险模式当前分数
+
+        simpleScoreUI:cc.Node,
+        RiskScoreUI:cc.Node,
+
+        endAnim:cc.Animation,
+
     },
     
     // LIFE-CYCLE CALLBACKS:
@@ -41,7 +55,6 @@ cc.Class({
         this.cubeList=this.cubes.children;
         this.starList=this.starUI.children;
 
-        this.sliderNode=this.slider.node.parent;
         this.modeId=ModeID.getInstance().id;
         this.cubeComponents=[]
 
@@ -60,6 +73,7 @@ cc.Class({
         this.levelTarget[2]=70
         this.levelTarget[3]=100
         this.levelTarget[4]=120
+        this.animPlayed=false;
         
         this.startMode() 
         this.gameStop() 
@@ -71,6 +85,7 @@ cc.Class({
         {
             //console.log("游戏结束")
             this.endUI.active=true;
+            
             //冒险模式分数判定
             if(this.modeId==1)
             {
@@ -92,13 +107,19 @@ cc.Class({
                 {
                     this.starList[i].active=true;
                 }
-                console.log(this.starCount)
+                //console.log(this.starCount)
             }
             this.totalScoreLabel.string=this.score
+            if(!this.animPlayed)
+            {
+                this.endAnim.play('EndPanelAnim')
+                this.animPlayed=true;
+            } 
         }
         //分数更新
         else{
             this.scoreLabel.string=this.score;
+            this.scoreLabel2.string=this.score;
             if(this.modeId==1)
             {
                 this.slider.fillRange=this.score/this.levelTarget[this.levelId]
@@ -107,6 +128,19 @@ cc.Class({
         //冒险模式到达分数后结束
         if(this.modeId==1)
         {
+            //toggle检测
+            if(this.score>=this.levelTarget[this.levelId]){
+                this.toggle3.isChecked=true;                   
+            }
+            else if(this.score>=this.levelTarget[this.levelId]/4*3)
+            {
+                this.toggle2.isChecked=true;
+            }
+            else if(this.score>=this.levelTarget[this.levelId]/2)
+            {
+                //1星
+                this.toggle1.isChecked=true;
+            }
             if(this.score==this.levelTarget[this.levelId]){
                 this.gameEnd=true;
             }
@@ -116,6 +150,8 @@ cc.Class({
             this.currenSpeed=~~(this.score/this.speedTime+1)*this.speedLevel;
             this.setSpeed(this.currenSpeed)
         }
+
+
     },
 
     
@@ -187,7 +223,8 @@ cc.Class({
         for(let i=0;i<3;i++){
             this.starList[i].active=false;
         }
-        this.sliderNode.active=false;
+        this.simpleScoreUI.active=true;
+        this.RiskScoreUI.active=false;
         this.speedLevel=100;
         this.currenSpeed=100;
         this.speedTime=5;
@@ -211,8 +248,8 @@ cc.Class({
         for(let i=0;i<3;i++){
             this.starList[i].active=false;
         }
-        this.sliderNode.active=false;
-
+        this.simpleScoreUI.active=true;
+        this.RiskScoreUI.active=false;
         this.speedLevel=ModeID.getInstance().speedCount;
         this.currenSpeed=ModeID.getInstance().initSpeed;
         this.speedTime=ModeID.getInstance().speedTime;
@@ -234,7 +271,9 @@ cc.Class({
         for(let i=0;i<3;i++){
             this.starList[i].active=false;
         }
-        this.sliderNode.active=true;  //开启进度条
+        this.simpleScoreUI.active=false;
+        this.RiskScoreUI.active=true;
+        this.targetScore.string= this.levelTarget[this.levelId]+"/"
         this.speedLevel=80+20*id;
         this.currenSpeed=80+20*id;
         this.speedTime=5;
@@ -252,7 +291,6 @@ cc.Class({
     },
 
     reload()
-
     {
         cc.director.loadScene("GameScene")
     }
