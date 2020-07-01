@@ -20,10 +20,14 @@ cc.Class({
         levelChooseUI:cc.Node,
         selfModeSetUI:cc.Node,
 
+        makerInfoUI:cc.Node,
+        settingUI:cc.Node,
+        modeIntroduce:cc.Node,
 
         initSpeed:cc.EditBox,
         speedTime:cc.EditBox,
         speedCount:cc.EditBox,
+        
         // foo: {
         //     // ATTRIBUTES:
         //     default: null,        // The default value will be used only when the component attaching
@@ -130,7 +134,42 @@ cc.Class({
         ModeID.getInstance().speedCount=parseInt(this.speedCount.string)
         this.selfModeSetUI.active=false;
         this.musicChooseUI.active=true;
-    }
+    },
 
+    startToMakerInfo()
+    {
+        this.startUI.active=false;
+        this.makerInfoUI.active=true;
+    },
+
+    makerInfoToStart()
+    {
+        this.makerInfoUI.active=false;
+        this.startUI.active=true;
+    },
+
+    startToSetting()
+    {
+        this.startUI.active=false;
+        this.settingUI.active=true;
+    },
+
+    settingToStart()
+    {
+        this.settingUI.active=false;
+        this.startUI.active=true;
+    },
+
+    modeChooseToIntroduce()
+    {
+        this.startUI.active=false;
+        this.settingUI.active=true;
+    },
+
+    introduceToChoose()
+    {
+        this.settingUI.active=false;
+        this.startUI.active=true;
+    }
     // update (dt) {},
 });
